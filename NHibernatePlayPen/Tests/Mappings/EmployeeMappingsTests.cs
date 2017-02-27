@@ -1,32 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate;
 using NHibernatePlayPen.Domain;
 using NUnit.Framework;
 
 namespace NHibernatePlayPen.Tests.Mappings
 {
     [TestFixture]
-    public class EmployeeMappingsTests
+    public class EmployeeMappingsTests: BaseTest
     {
-        private InMemoryDatabaseForXmlMappings _database;
-        private ISession _session;
-
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            _database = new InMemoryDatabaseForXmlMappings();
-            _session = _database.Session;
-        }
-
         [Test]
         public void MapsPrimitiveProperties()
         {
             object id;
-            using (var transaction = _session.BeginTransaction())
+            using (var transaction = Session.BeginTransaction())
             {
-                id = _session.Save(new Employee
+                id = Session.Save(new Employee
                 {
                     EmployeeNumber = "5987123",
                     Firstname = "Hillary",
@@ -39,11 +28,11 @@ namespace NHibernatePlayPen.Tests.Mappings
                 });
                 transaction.Commit();
             }
-            _session.Clear();
+            Session.Clear();
 
-            using (var transaction = _session.BeginTransaction())
+            using (var transaction = Session.BeginTransaction())
             {
-                var employee = _session.Get<Employee>(id);
+                var employee = Session.Get<Employee>(id);
                 Assert.That(employee.EmployeeNumber, Is.EqualTo("5987123"));
                 Assert.That(employee.Firstname, Is.EqualTo("Hillary"));
                 Assert.That(employee.Lastname, Is.EqualTo("Gamble"));
@@ -66,9 +55,9 @@ namespace NHibernatePlayPen.Tests.Mappings
         public void MapsBenefits()
         {
             object id;
-            using (var transaction = _session.BeginTransaction())
+            using (var transaction = Session.BeginTransaction())
             {
-                id = _session.Save(new Employee
+                id = Session.Save(new Employee
                 {
                     EmployeeNumber = "123456789",
                     Benefits = new HashSet<Benefit>
@@ -96,11 +85,11 @@ namespace NHibernatePlayPen.Tests.Mappings
                 transaction.Commit();
             }
 
-            _session.Clear();
+            Session.Clear();
 
-            using (var transaction = _session.BeginTransaction())
+            using (var transaction = Session.BeginTransaction())
             {
-                var employee = _session.Get<Employee>(id);
+                var employee = Session.Get<Employee>(id);
                 Assert.That(employee.Benefits.Count, Is.EqualTo(3));
                 var seasonTicketLoan = employee.Benefits.OfType<SeasonTicketLoan>().
                     FirstOrDefault();
