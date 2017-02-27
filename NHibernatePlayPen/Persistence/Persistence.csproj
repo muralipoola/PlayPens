@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\ByCode\AddressMapping.cs" />
+    <Compile Include="Mappings\ByCode\BenefitMapping.cs" />
+    <Compile Include="Mappings\ByCode\EmployeeMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

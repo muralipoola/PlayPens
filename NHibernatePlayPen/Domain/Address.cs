@@ -1,11 +1,13 @@
 ﻿namespace NHibernatePlayPen.Domain
 {
-    public class Address
+    public class Address:EntityBase
     {
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string Postcode { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public virtual string AddressLine1 { get; set; }
+        public virtual string AddressLine2 { get; set; }
+        public virtual string Postcode { get; set; }
+        public virtual string City { get; set; }
+        public virtual string Country { get; set; }
+
+        public virtual Employee Employee{get; set; }
     }
 }
