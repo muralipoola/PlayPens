@@ -22,8 +22,9 @@ namespace NHibernatePlayPen.Tests
                 .SetProperty(Environment.ConnectionDriver, typeof (SQLite20Driver).AssemblyQualifiedName)
                 .SetProperty(Environment.ConnectionString, "data source =:memory:")
                 .AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Employee.hbm.xml")
-                //.AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Benefit.hierarchy.hbm.xml");
-                .AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Benefit.subclass.hbm.xml");
+                                .AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Benefit.hierarchy.hbm.xml");
+                                //.AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Benefit.subclass.hbm.xml");
+                               // .AddFile(@"K:\GitHub\PlayPens\NHibernatePlayPen\Persistence\Mappings\Xml\Benefit.concrete.hbm.xml");
 
             SessionFactory = Config.BuildSessionFactory();
             Session = SessionFactory.OpenSession();

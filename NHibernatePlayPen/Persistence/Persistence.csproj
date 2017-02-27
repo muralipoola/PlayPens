@@ -60,6 +60,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Mappings\Xml\Benefit.concrete.hbm.xml" />
     <Content Include="Mappings\Xml\Benefit.subclass.hbm.xml" />
     <Content Include="Mappings\Xml\Benefit.hierarchy.hbm.xml" />
     <Content Include="Mappings\Xml\Employee.hbm.xml" />
