@@ -89,7 +89,19 @@ namespace NHibernatePlayPen.Tests.Mappings
 
             using (var transaction = Session.BeginTransaction())
             {
-                var employee = Session.Get<Employee>(id);
+                // Method 1:
+                //var employee = Session.Get<Employee>(id);
+
+                // Method 2:
+                //var employee = Session.QueryOver<Employee>()
+                //   .Where(x => x.Id == int.Parse(id.ToString()))
+                //   .Fetch(e => e.Benefits).Eager.List<Employee>().FirstOrDefault();
+
+                // Method 3:
+                var employee = Session.QueryOver<Employee>()
+                  .Where(x => x.Id == int.Parse(id.ToString()))
+                  .Fetch(e => e.Benefits).Lazy.List<Employee>().FirstOrDefault();
+
                 Assert.That(employee.Benefits.Count, Is.EqualTo(3));
                 var seasonTicketLoan = employee.Benefits.OfType<SeasonTicketLoan>().
                     FirstOrDefault();
