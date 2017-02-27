@@ -13,7 +13,11 @@ namespace NHibernatePlayPen.Persistence.Mappings.ByCode
             Property(b => b.Name);
             Property(b => b.Description);
 
-            ManyToOne(b => b.Employee, mapping => mapping.Class(typeof (Employee)));
+            ManyToOne(b => b.Employee, mapping =>
+            {
+                mapping.Class(typeof (Employee));
+                mapping.Column("Employee_Id");
+            } );
         }
     }
 
