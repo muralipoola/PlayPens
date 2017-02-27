@@ -2,7 +2,7 @@
 {
     public class SkillsEnhancementAllowance : Benefit
     {
-        public int RemainingEntitlement { get; set; }
-        public int Entitlement { get; set; }
+        public virtual int RemainingEntitlement { get; set; }
+        public virtual int Entitlement { get; set; }
     }
 }

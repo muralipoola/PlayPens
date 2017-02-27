@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 using NHibernatePlayPen.Domain;
 using NUnit.Framework;
@@ -56,6 +58,73 @@ namespace NHibernatePlayPen.Tests.Mappings
                 Assert.That(employee.DateOfJoining.Day, Is.EqualTo(12));
                 Assert.That(employee.IsAdmin, Is.True);
                 Assert.That(employee.Password, Is.EqualTo("password"));
+                transaction.Commit();
+            }
+        }
+
+        [Test]
+        public void MapsBenefits()
+        {
+            object id;
+            using (var transaction = _session.BeginTransaction())
+            {
+                id = _session.Save(new Employee
+                {
+                    EmployeeNumber = "123456789",
+                    Benefits = new HashSet<Benefit>
+                    {
+                        new SkillsEnhancementAllowance
+                        {
+                            Entitlement = 1000,
+                            RemainingEntitlement = 250
+                        },
+                        new SeasonTicketLoan
+                        {
+                            Amount = 1416,
+                            MonthlyInstalment = 118,
+                            StartDate = new DateTime(2014, 4, 25),
+                            EndDate = new DateTime(2015, 3, 25)
+                        },
+                        new Leave
+                        {
+                            AvailableEntitlement = 30,
+                            RemainingEntitlement = 15,
+                            Type = LeaveType.Casual
+                        }
+                    }
+                });
+                transaction.Commit();
+            }
+
+            _session.Clear();
+
+            using (var transaction = _session.BeginTransaction())
+            {
+                var employee = _session.Get<Employee>(id);
+                Assert.That(employee.Benefits.Count, Is.EqualTo(3));
+                var seasonTicketLoan = employee.Benefits.OfType<SeasonTicketLoan>().
+                    FirstOrDefault();
+                Assert.That(seasonTicketLoan, Is.Not.Null);
+                if (seasonTicketLoan != null)
+                {
+                    Assert.That(seasonTicketLoan.Employee.EmployeeNumber,
+                        Is.EqualTo("123456789"));
+                }
+                var skillsEnhancementAllowance = employee.Benefits
+                    .OfType<SkillsEnhancementAllowance>().FirstOrDefault();
+                Assert.That(skillsEnhancementAllowance, Is.Not.Null);
+                if (skillsEnhancementAllowance != null)
+                {
+                    Assert.That(skillsEnhancementAllowance.Employee.EmployeeNumber,
+                        Is.EqualTo("123456789"));
+                }
+                var leave = employee.Benefits.OfType<Leave>().FirstOrDefault();
+                Assert.That(leave, Is.Not.Null);
+                if (leave != null)
+                {
+                    Assert.That(leave.Employee.EmployeeNumber,
+                        Is.EqualTo("123456789"));
+                }
                 transaction.Commit();
             }
         }

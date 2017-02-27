@@ -11,5 +11,9 @@ assembly="NHibernatePlayPen.Domain" namespace="NHibernatePlayPen.Domain">
     <property name="DateOfJoining" />
     <property name="IsAdmin" />
     <property name="Password" />
+    <set name="Benefits" cascade="all-delete-orphan">
+      <key column="Employee_Id"/>
+      <one-to-many class="Benefit"/>
+    </set>
   </class>
 </hibernate-mapping>
